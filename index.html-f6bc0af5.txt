@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عبدالعليم الفهداوي | المختبر التفاعلي: الدائرة الكهربائية وقانون أوم</title>
+<style>
+:root{--blue:#1b7fd0;--dark:#e8f1fa;--green:#1fa463;--pink:#e0368f;--bg:#07101c;--amber:#ffb300}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Kufi Arabic",Tahoma,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 50% 0,#16324f,#050b14 70%) fixed;color:#e8f1fa}
+header{background:linear-gradient(120deg,#0b1a2c,#16324f);color:#fff;padding:16px;text-align:center;border-bottom:3px solid #ffb300}
+header h1{margin:0;font-size:22px;font-weight:800}header p{margin:4px 0 0;font-size:13px;color:#ffd36b}
+nav{display:flex;gap:6px;padding:8px;overflow-x:auto;background:#0b1a2cee;position:sticky;top:0;z-index:5}
+nav button{flex:1;min-width:110px;border:0;border-radius:22px;padding:10px 8px;font:inherit;font-size:14px;background:#1a2d44;color:#cfe3f5;cursor:pointer}
+nav button.on{background:#ffb300;color:#2a1800;font-weight:800}
+main{max-width:980px;margin:auto;padding:10px}
+section{display:none}section.on{display:block}
+.card{background:#ffffff12;border:1px solid #ffffff30;border-radius:18px;padding:12px;margin:10px 0;box-shadow:0 8px 24px #0008}
+canvas{width:100%;height:auto;display:block;background:#0b1a2c;border-radius:12px}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.ctl label{display:block;font-size:14px;margin-bottom:4px}
+.ctl input[type=range]{width:100%;accent-color:#ffb300}
+.val{display:inline-block;background:#ffb300;color:#2a1800;border-radius:8px;padding:1px 8px;font-size:13px;margin-right:6px;direction:ltr;font-weight:800}
+.btn{border:0;border-radius:22px;padding:10px 16px;font:inherit;font-size:14px;cursor:pointer;background:#ffb300;color:#2a1800;font-weight:800;margin:3px;box-shadow:0 4px 0 #8a5d00}
+.btn.g{background:#1fa463;color:#fff;box-shadow:0 4px 0 #0f5f38}.btn.p{background:#e0368f;color:#fff;box-shadow:0 4px 0 #85124f}.btn.o{background:#4a5b6e;color:#fff;box-shadow:0 4px 0 #2a3644}
+.read{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.read div{flex:1;min-width:90px;background:#9fcf8f;color:#14301a;border:3px solid #111;border-radius:10px;padding:8px;text-align:center;font-family:monospace;font-size:22px;font-weight:800;direction:ltr}
+.read small{display:block;color:#14301a;font-family:inherit;font-size:12px;direction:rtl}
+.law{background:#ffb30022;border:1px solid #ffb300;border-radius:14px;padding:10px;text-align:center;font-size:18px;margin:6px 0;color:#ffd36b}
+.note{background:#ffffff14;border-right:4px solid #ffb300;padding:8px 10px;border-radius:8px;font-size:14px;margin:8px 0}
+.ok{color:#5ee08f;font-weight:bold}.bad{color:#ff6b6b;font-weight:bold}
+table{width:100%;border-collapse:collapse;font-size:14px;text-align:center}
+th,td{border:1px solid #ffffff30;padding:5px}th{background:#ffffff18}
+.q{margin:10px 0;padding:10px;border-radius:12px;background:#ffffff10}
+.q button{display:block;width:100%;text-align:right;margin:4px 0;border:1px solid #ffffff40;background:#ffffff14;color:#e8f1fa;border-radius:10px;padding:8px;font:inherit;cursor:pointer}
+.q button.right{background:#1fa46355;border-color:#5ee08f}.q button.wrong{background:#d6282855;border-color:#ff6b6b}
+footer{text-align:center;font-size:12px;color:#8fa6bf;padding:14px}
+</style>
+</head>
+<body>
+<header><h1>⚡ المختبر التفاعلي: الدائرة الكهربائية وقانون أوم</h1><p>الفصل الثالث: قياس التيار وفرق الجهد والمقاومة</p><p style="font-size:15px;color:#fff;font-weight:700;margin-top:8px">م.م عبدالعليم علي الفهداوي</p><p style="margin-top:2px">مديرية تربية الانبار</p></header>
+<nav id="tabs">
+<button data-t="t1" class="on">١ الدائرة</button>
+<button data-t="t2">٢ الأميتر والفولطميتر</button>
+<button data-t="t3">٣ قانون أوم</button>
+<button data-t="t4">٤ الأوميتر</button>
+<button data-t="t5">٥ اختبر نفسك</button>
+</nav>
+<main>
+
+<section id="t1" class="on">
+<div class="card"><b>الدائرة الكهربائية البسيطة:</b> مصباح (الحمل)، أسلاك توصيل، مفتاح، وبطارية. اضغط المفتاح لفتح الدائرة وإغلاقها.
+<canvas id="c1" width="900" height="420"></canvas>
+<div><button class="btn" id="sw1">🔘 المفتاح: مفتوح</button></div>
+<div class="note" id="m1">الدائرة مفتوحة: يوجد قطع في الدائرة، فلا يتوهج المصباح.</div></div>
+</section>
+
+<section id="t2">
+<div class="card"><b>قياس التيار وفرق الجهد:</b> الأميتر يُربط على التوالي، والفولطميتر يُربط على التوازي بين طرفي الجزء المراد قياس فرق الجهد بين طرفيه.
+<canvas id="c2" width="900" height="470"></canvas>
+<div class="ctl">
+<div><label>فولتية البطارية <span class="val" id="v2">6.0 V</span></label><input type="range" id="sV" min="1.5" max="12" step="0.5" value="6"></div>
+<div><label>مقاومة الريوستات <span class="val" id="r2">10 Ω</span></label><input type="range" id="sR" min="0" max="30" step="1" value="10"></div>
+<div><label>الفولطميتر على:</label><select id="vm" style="width:100%;padding:8px;font:inherit;border-radius:8px"><option value="lamp">طرفي المصباح</option><option value="rheo">طرفي الريوستات</option><option value="batt">قطبي البطارية</option></select></div>
+</div>
+<div><button class="btn" id="sw2">🔘 المفتاح: مفتوح</button><button class="btn g" id="rec">📝 سجّل القراءة</button></div>
+<div class="read"><div id="rA"><small>الأميتر (A)</small>0.00</div><div id="rV"><small>الفولطميتر (V)</small>0.00</div></div>
+<div class="note">نستنتج: قراءة الأميتر تتغير بتغير مقدار التيار المنساب في الدائرة. غيّر مقاومة الريوستات وراقب توهج المصباح وقراءة الأميتر.</div>
+<table id="tb2"><thead><tr><th>#</th><th>V البطارية</th><th>R الريوستات</th><th>I (A)</th><th>V المقاس (V)</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="t3">
+<div class="card"><b>قانون أوم:</b>
+<div class="law">المقاومة = فرق الجهد ÷ التيار &nbsp; ⟶ &nbsp; R (Ω) = V (volt) ÷ I (Ampere)</div>
+<canvas id="c3" width="900" height="360"></canvas>
+<div class="ctl">
+<div><label>المقاومة R (ثابتة) <span class="val" id="r3">10 Ω</span></label><input type="range" id="sR3" min="1" max="50" step="1" value="10"></div>
+<div><label>فرق الجهد V <span class="val" id="v3">6.0 V</span></label><input type="range" id="sV3" min="0" max="12" step="0.5" value="6"></div>
+</div>
+<div class="read"><div id="i3"><small>التيار I (A)</small>0.60</div><div id="q3"><small>V ÷ I = R (Ω)</small>10.0</div></div>
+<div><button class="btn g" id="pt">➕ أضف نقطة للرسم</button><button class="btn o" id="clr">مسح النقاط</button></div>
+<canvas id="g3" width="900" height="300" style="margin-top:8px"></canvas>
+<div class="note">النقاط تقع على خط مستقيم ميله يساوي R: مقدار المقاومة ثابت ضمن حدود معينة. الأوم: مقاومة موصل فرق الجهد بين طرفيه فولطاً واحداً ومقدار التيار المار خلاله أمبيراً واحداً.</div></div>
+</section>
+
+<section id="t4">
+<div class="card"><b>قياس المقاومة بالأوميتر (Ohmmeter):</b> يجب أن تكون المقاومة المراد قياسها غير موصولة بدائرة كهربائية.
+<canvas id="c4" width="900" height="360"></canvas>
+<div class="ctl">
+<div><label>اختر المقاومة <span class="val" id="r4">47 Ω</span></label><input type="range" id="sR4" min="1" max="100" step="1" value="47"></div>
+</div>
+<div><button class="btn p" id="pw">🔋 وصل المقاومة ببطارية: لا</button></div>
+<div class="note" id="m4">الدائرة مفتوحة (I = 0 A): يمكن للأوميتر قياس المقاومة بشكل صحيح.</div></div>
+</section>
+
+<section id="t5">
+<div class="card"><b>اختبر نفسك</b><div id="quiz"></div><div id="score" class="note" style="display:none"></div></div>
+</section>
+</main>
+<footer>مختبر تعليمي تفاعلي · يعمل على الهاتف والحاسوب</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const tabs=document.querySelectorAll('#tabs button');
+tabs.forEach(b=>b.onclick=()=>{tabs.forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('section').forEach(s=>s.classList.remove('on'));$(b.dataset.t).classList.add('on')});
+
+/* ---------- helpers ---------- */
+function line(g,pts,col='#d98b3a',w=7){g.strokeStyle=col;g.lineWidth=w;g.lineJoin='round';g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.stroke()}
+function txt(g,s,x,y,sz=16,col='#e8f1fa',al='center'){g.fillStyle=col;g.font='800 '+sz+'px "Noto Kufi Arabic",Tahoma,sans-serif';g.textAlign=al;g.fillText(s,x,y)}
+function battery(g,x,y,w,h,V){const cx=x+w/2;
+ g.strokeStyle='#d98b3a';g.lineWidth=7;g.lineCap='round';g.beginPath();g.moveTo(cx,y-30);g.lineTo(cx,y-8);g.moveTo(cx,y+h);g.lineTo(cx,y+h+16);g.stroke();g.lineCap='butt';
+ g.save();g.shadowColor='#000a';g.shadowBlur=10;g.shadowOffsetX=4;g.shadowOffsetY=6;
+ let gr=g.createLinearGradient(x,0,x+w,0);gr.addColorStop(0,'#0c2a14');gr.addColorStop(.2,'#1f8a3c');gr.addColorStop(.4,'#7ef09a');gr.addColorStop(.6,'#27a049');gr.addColorStop(1,'#06180c');
+ g.fillStyle=gr;g.fillRect(x,y,w,h);
+ let gg=g.createLinearGradient(x,0,x+w,0);gg.addColorStop(0,'#7a5200');gg.addColorStop(.4,'#fff2b8');gg.addColorStop(1,'#6a4600');g.fillStyle=gg;g.fillRect(x,y,w,h*.2);g.fillRect(cx-w*.2,y-9,w*.4,10);
+ g.fillStyle='#2a2e34';g.fillRect(x,y+h*.82,w,h*.18);g.restore();
+ g.fillStyle='#ffffff55';g.fillRect(x+w*.15,y+h*.24,w*.1,h*.55);
+ txt(g,'+',cx,y+h*.15,16,'#4a3000');txt(g,'−',cx,y+h*.97,18,'#fff');txt(g,V.toFixed(1)+' V',cx,y+h*.55,13,'#06240f');}
+function lamp(g,x,y,I,Imax,lab=true,top){const b=Math.min(1,I/Imax);top=top===undefined?y-26:top;
+ g.strokeStyle='#d98b3a';g.lineWidth=7;g.lineJoin='round';g.beginPath();g.moveTo(x,top);g.lineTo(x+46,top);g.lineTo(x+46,y+31);g.lineTo(x+10,y+31);g.moveTo(x,y+40);g.lineTo(x,y+62);g.stroke();
+ if(b>0.02){const gr=g.createRadialGradient(x,y,5,x,y,70+60*b);gr.addColorStop(0,`rgba(255,220,80,${.85*b})`);gr.addColorStop(1,'rgba(255,220,80,0)');g.fillStyle=gr;g.beginPath();g.arc(x,y,70+60*b,0,7);g.fill();}
+ g.save();g.shadowColor='#000a';g.shadowBlur=8;g.shadowOffsetX=3;g.shadowOffsetY=5;
+ const gl=g.createRadialGradient(x-8,y-8,2,x,y,28);if(b>0.02){gl.addColorStop(0,'#fffbe0');gl.addColorStop(.5,`rgb(255,${200+40*b|0},${90+90*b|0})`);gl.addColorStop(1,'#ffa81f')}else{gl.addColorStop(0,'#f4fbff');gl.addColorStop(1,'#7f9db0')}
+ g.fillStyle=gl;g.strokeStyle='#fff6';g.lineWidth=2;g.beginPath();g.arc(x,y,26,0,7);g.fill();g.stroke();
+ const sm=g.createLinearGradient(x-12,0,x+12,0);sm.addColorStop(0,'#555');sm.addColorStop(.5,'#eee');sm.addColorStop(1,'#555');g.fillStyle=sm;g.fillRect(x-12,y+22,24,18);g.restore();
+ g.strokeStyle=b>.02?'#fff':'#6b6f75';g.lineWidth=2.5;g.beginPath();g.moveTo(x-9,y+24);g.lineTo(x-6,y-4);g.lineTo(x,y+4);g.lineTo(x+6,y-4);g.lineTo(x+9,y+24);g.stroke();
+ g.fillStyle='#ffd86b';g.beginPath();g.arc(x+10,y+31,4,0,7);g.arc(x,y+41,4,0,7);g.fill();
+ g.fillStyle='#fff5';g.beginPath();g.ellipse(x-12,y-14,6,11,.5,0,7);g.fill();
+ if(lab)txt(g,'مصباح',x,y+82,14);}
+function resistor(g,x,y,w,label){g.strokeStyle='#ffb36b';g.shadowColor='#ffb36b';g.shadowBlur=8;g.lineWidth=5;g.beginPath();g.moveTo(x,y);const n=8,s=w/n;for(let i=0;i<n;i++)g.lineTo(x+s*(i+.5),y+(i%2?14:-14));g.lineTo(x+w,y);g.stroke();g.shadowBlur=0;if(label)txt(g,label,x+w/2,y-24,14);}
+function rheostat(g,x,y,w,frac){g.fillStyle='#cfd6dc';g.fillRect(x,y-16,w,32);g.strokeStyle='#555';g.lineWidth=2;g.strokeRect(x,y-16,w,32);g.strokeStyle='#6a6a6a';g.lineWidth=2;for(let i=0;i<w;i+=6){g.beginPath();g.moveTo(x+i,y-14);g.lineTo(x+i+3,y+14);g.stroke()}
+ const sx=x+w*(1-frac);g.fillStyle='#f5b301';g.fillRect(sx-9,y-30,18,16);g.strokeStyle='#222';g.strokeRect(sx-9,y-30,18,16);txt(g,'ريوستات (مقاومة متغيرة)',x+w/2,y+38,14);}
+function term(g,x,y){g.fillStyle='#ffd86b';g.strokeStyle='#5a3d00';g.lineWidth=2;g.beginPath();g.arc(x,y,6,0,7);g.fill();g.stroke()}
+function gauge(g,cx,cy,r,val,max,unit,col){g.fillStyle='#fff';g.strokeStyle='#223';g.lineWidth=3;g.beginPath();g.arc(cx,cy,r,0,7);g.fill();g.stroke();
+ g.strokeStyle=col;g.lineWidth=4;g.beginPath();g.arc(cx,cy,r,0,7);g.stroke();
+ const a0=Math.PI*1.15,a1=Math.PI*1.85;g.strokeStyle='#223';g.lineWidth=1.5;
+ for(let i=0;i<=10;i++){const a=a0+(a1-a0)*i/10;g.beginPath();g.moveTo(cx+Math.cos(a)*(r-14),cy+Math.sin(a)*(r-14));g.lineTo(cx+Math.cos(a)*(r-5),cy+Math.sin(a)*(r-5));g.stroke()}
+ const f=Math.max(0,Math.min(1,val/max)),a=a0+(a1-a0)*f;g.strokeStyle='#d62828';g.lineWidth=3;g.beginPath();g.moveTo(cx,cy+r*.45);g.lineTo(cx+Math.cos(a)*(r-10),cy+Math.sin(a)*(r-10)+r*.45*(1-f*0)*0);g.stroke();
+ g.fillStyle='#223';g.beginPath();g.arc(cx,cy+r*.45,5,0,7);g.fill();txt(g,unit,cx,cy-r*.1,r*.45,col);}
+
+/* ---------- animated electrons along a polyline loop ---------- */
+function loopPts(x0,y0,x1,y1){return [[x0,y0],[x1,y0],[x1,y1],[x0,y1],[x0,y0]]}
+function plen(p){let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L}
+function pat(p,d){const L=plen(p);d=((d%L)+L)%L;for(let i=1;i<p.length;i++){const l=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);if(d<=l){const t=d/l;return[p[i-1][0]+(p[i][0]-p[i-1][0])*t,p[i-1][1]+(p[i][1]-p[i-1][1])*t]}d-=l}return p[0]}
+let phase=0;
+function electrons(g,p,I,n=26,col='#7fe9ff'){const L=plen(p);for(let i=0;i<n;i++){const [x,y]=pat(p,i*L/n+phase);g.fillStyle=col;g.beginPath();g.arc(x,y,5,0,7);g.fill();g.fillStyle='#003a55';g.font='bold 9px sans-serif';g.textAlign='center';g.fillText('−',x,y+3)}}
+function arrow(g,x,y,dir,col){g.fillStyle=col;g.beginPath();if(dir==='r'){g.moveTo(x+10,y);g.lineTo(x-6,y-8);g.lineTo(x-6,y+8)}else if(dir==='l'){g.moveTo(x-10,y);g.lineTo(x+6,y-8);g.lineTo(x+6,y+8)}else if(dir==='d'){g.moveTo(x,y+10);g.lineTo(x-8,y-6);g.lineTo(x+8,y-6)}else{g.moveTo(x,y-10);g.lineTo(x-8,y+6);g.lineTo(x+8,y+6)}g.fill()}
+
+/* ---------- Tab 1 ---------- */
+let sw1=false;const c1=$('c1'),g1=c1.getContext('2d');
+$('sw1').onclick=()=>{sw1=!sw1;$('sw1').textContent='🔘 المفتاح: '+(sw1?'مغلق':'مفتوح');$('m1').innerHTML=sw1?'الدائرة مغلقة: تتحرك الإلكترونات وتنساب في الأسلاك وخيوط المصباح فيتوهج، وتُدعى <b>الدائرة الكهربائية المغلقة</b>.':'الدائرة مفتوحة: يوجد قطع في الدائرة، فلا يتوهج المصباح.'};
+function draw1(){const g=g1;g.clearRect(0,0,900,420);
+ const P=loopPts(160,90,740,340);
+ line(g,P,'#d98b3a',7);
+ if(sw1)electrons(g,[[160,340],[740,340],[740,90],[160,90],[160,340]],1,30);
+ // battery left, lamp right, switch bottom
+ g.fillStyle='#0b1a2c';g.fillRect(100,150,120,120);g.fillStyle='#0b1a2c';g.fillRect(690,160,100,110);g.fillStyle='#0b1a2c';g.fillRect(380,310,140,60);
+ battery(g,130,170,60,90,6);lamp(g,740,215,sw1?1:0,1,true,160);
+ // switch
+ g.strokeStyle='#ff8a3c';g.lineWidth=8;g.beginPath();g.moveTo(390,340);g.lineTo(sw1?510:495,sw1?340:300);g.stroke();g.fillStyle='#ffd86b';g.beginPath();g.arc(390,340,9,0,7);g.arc(510,340,9,0,7);g.fill();txt(g,'المفتاح '+(sw1?'(مغلق)':'(مفتوح)'),450,372,14);
+ // current arrows (conventional): from + (top-left battery) -> right -> lamp -> back
+ if(sw1){arrow(g,450,90,'r','#d62828');arrow(g,740,150,'d','#d62828');arrow(g,450,340,'l','#d62828');txt(g,'التيار I',450,70,14,'#d62828')}
+ txt(g,'● الإلكترونات (سالبة)',160,40,14,'#7fe9ff');txt(g,'▶ اتجاه التيار الاصطلاحي (من الأعلى جهداً إلى الأوطأ)',600,40,13,'#d62828');}
+
+/* ---------- Tab 2 ---------- */
+let sw2=false,rows=[];const c2=$('c2'),g2=c2.getContext('2d');
+const RL=5;
+function st2(){const V=+$('sV').value,R=+$('sR').value;const I=sw2?V/(RL+R):0;
+ const vm=$('vm').value;const Vm=sw2?(vm==='lamp'?I*RL:vm==='rheo'?I*R:V):(vm==='batt'?V:0);return{V,R,I,Vm,vm}}
+$('sw2').onclick=()=>{sw2=!sw2;$('sw2').textContent='🔘 المفتاح: '+(sw2?'مغلق':'مفتوح')};
+$('sV').oninput=()=>$('v2').textContent=(+$('sV').value).toFixed(1)+' V';
+$('sR').oninput=()=>$('r2').textContent=$('sR').value+' Ω';
+$('rec').onclick=()=>{const s=st2();if(!sw2){alert('أغلق المفتاح أولاً');return}rows.push(s);if(rows.length>8)rows.shift();
+ $('tb2').tBodies[0].innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.V.toFixed(1)}</td><td>${r.R}</td><td>${r.I.toFixed(2)}</td><td>${r.Vm.toFixed(2)}</td></tr>`).join('')};
+function draw2(){const g=g2,s=st2();g.clearRect(0,0,900,470);
+ const x0=140,x1=760,y0=110,y1=360,W='#d98b3a';
+ if(sw2)electrons(g,[[x0,y1],[x1,y1],[x1,y0],[x0,y0],[x0,y1]],s.I,Math.max(6,Math.round(6+s.I*40)),'#7fe9ff');
+ // top wire with ammeter (gauge centre on the wire)
+ line(g,[[x0,y0],[417,y0]],W);line(g,[[493,y0],[x1,y0]],W);
+ // right wire with lamp
+ line(g,[[x1,y0],[x1,209]],W);line(g,[[x1,275],[x1,y1]],W);
+ // bottom wire: corner - switch - rheostat - corner
+ line(g,[[x1,y1],[520,y1]],W);line(g,[[340,y1],[280,y1]],W);line(g,[[200,y1],[x0,y1]],W);
+ // left wire with battery
+ line(g,[[x0,y1],[x0,286]],W);line(g,[[x0,150],[x0,y0]],W);line(g,[[x0,y0],[417,y0]],W);
+ g.fillStyle='#0b1a2c';g.fillRect(x0-45,140,90,150);battery(g,x0-30,170,60,100,s.V);
+ // switch
+ g.fillStyle='#ffd86b';g.beginPath();g.arc(200,y1,9,0,7);g.arc(280,y1,9,0,7);g.fill();
+ line(g,sw2?[[200,y1],[280,y1]]:[[200,y1],[268,y1-38]],'#ff8a3c',9);txt(g,'المفتاح '+(sw2?'(مغلق)':'(مفتوح)'),240,y1+34,14);
+ // rheostat
+ rheostat(g,340,y1,180,s.R/30);
+ // lamp
+ lamp(g,x1,235,s.I,V3(s),false);txt(g,'مصباح',x1+60,240,14);
+ // ammeter
+ gauge(g,455,y0,38,s.I,1.2,'A','#f5b301');term(g,417,y0);term(g,493,y0);txt(g,'الأميتر (على التوالي)',455,y0-50,13);
+ // voltmeter + probes: two distinct nodes on the wire
+ const pc='#7a4bd1';let mx,my,A,B,tA,tB,nm;
+ if(s.vm==='lamp'){mx=610;my=235;A=[760,175];B=[760,295];tA=[610,199];tB=[610,271];
+   line(g,[A,[mx,175],tA],pc,3);line(g,[B,[mx,295],tB],pc,3);}
+ else if(s.vm==='rheo'){mx=430;my=260;A=[325,y1];B=[535,y1];tA=[430,296];tB=[430,224];
+   line(g,[A,[325,300],[430,300],tA],pc,3);line(g,[B,[535,230],[430,230],tB],pc,3);}
+ else{mx=300;my=235;A=[x0,128];B=[x0,320];tA=[300,199];tB=[300,271];
+   line(g,[A,[300,128],tA],pc,4);line(g,[B,[300,320],tB],pc,4);}
+ [A,B].forEach(p=>{g.fillStyle=pc;g.beginPath();g.arc(p[0],p[1],6,0,7);g.fill()});
+ gauge(g,mx,my,36,s.Vm,12,'V',pc);term(g,tA[0],tA[1]);term(g,tB[0],tB[1]);
+ if(s.vm==='lamp')txt(g,'فولطميتر (على التوازي)',mx-48,my+5,13,pc,'right');else txt(g,'فولطميتر (على التوازي)',mx,my+58,13,pc);
+ $('rA').innerHTML='<small>الأميتر (A)</small>'+s.I.toFixed(2);$('rV').innerHTML='<small>الفولطميتر (V)</small>'+s.Vm.toFixed(2);}
+function V3(s){return 6/(RL+10)}// brightness reference current
+
+/* ---------- Tab 3 ---------- */
+let pts=[];const c3=$('c3'),g3c=c3.getContext('2d'),gg=$('g3').getContext('2d');
+['sR3','sV3'].forEach(i=>$(i).oninput=upd3);
+function upd3(){const R=+$('sR3').value,V=+$('sV3').value;$('r3').textContent=R+' Ω';$('v3').textContent=V.toFixed(1)+' V';const I=V/R;$('i3').innerHTML='<small>التيار I (A)</small>'+I.toFixed(2);$('q3').innerHTML='<small>V ÷ I = R (Ω)</small>'+(I>0?(V/I).toFixed(1):'—')}
+$('pt').onclick=()=>{const R=+$('sR3').value,V=+$('sV3').value;if(V>0){pts.push({V,I:V/R,R});if(pts.length>12)pts.shift()}};
+$('clr').onclick=()=>pts=[];
+function draw3(){const g=g3c,R=+$('sR3').value,V=+$('sV3').value,I=V/R;g.clearRect(0,0,900,360);
+ const x0=150,x1=750,y0=130,y1=296,pc='#8a5cff';
+ line(g,[[x0,140],[x0,y0],[390,y0]]);line(g,[[550,y0],[x1,y0],[x1,y1],[502,y1]]);line(g,[[438,y1],[x0,y1],[x0,286]]);
+ if(V>0)electrons(g,[[x0,y1],[x1,y1],[x1,y0],[x0,y0],[x0,y1]],I,Math.max(6,Math.round(6+I*14)),'#7fe9ff');
+ battery(g,x0-30,170,60,100,V);resistor(g,390,y0,160,'R = '+R+' Ω');
+ gauge(g,470,y1,32,I,2,'A','#f5b301');term(g,438,y1);term(g,502,y1);txt(g,'أميتر (على التوالي)',470,y1+52,13);
+ // voltmeter in parallel across the resistor
+ line(g,[[390,y0],[390,48],[440,48]],pc,4);line(g,[[550,y0],[550,48],[500,48]],pc,4);
+ [[390,y0],[550,y0]].forEach(p=>{g.fillStyle=pc;g.beginPath();g.arc(p[0],p[1],7,0,7);g.fill()});
+ gauge(g,470,48,30,V,12,'V',pc);term(g,440,48);term(g,500,48);txt(g,'فولطميتر (على التوازي مع المقاومة)',700,40,13,pc);
+ // graph
+ const h=gg;h.clearRect(0,0,900,300);h.strokeStyle='#223';h.lineWidth=2;h.beginPath();h.moveTo(70,260);h.lineTo(870,260);h.moveTo(70,260);h.lineTo(70,20);h.stroke();
+ txt(h,'V (فولط)',830,285,14);txt(h,'I (أمبير)',70,14,14,'#cfd8e3','center');
+ h.strokeStyle='#e3ecf3';h.lineWidth=1;for(let i=1;i<=4;i++){h.beginPath();h.moveTo(70,260-i*60);h.lineTo(870,260-i*60);h.stroke()}
+ const maxI=Math.max(1,...pts.map(p=>p.I))*1.15,maxV=12;
+ pts.forEach(p=>{const x=70+p.V/maxV*790,y=260-p.I/maxI*235;h.fillStyle='#e0368f';h.beginPath();h.arc(x,y,6,0,7);h.fill()});
+ if(pts.length>1){const a=pts.map(p=>p.R);const same=a.every(r=>r===a[0]);if(same){const R0=a[0];h.strokeStyle='#1fa463';h.lineWidth=3;h.beginPath();h.moveTo(70,260);h.lineTo(870,260-(maxV/R0)/maxI*235);h.stroke();txt(h,'الميل = 1 ÷ R',700,60,15,'#1fa463')}else txt(h,'ثبّت قيمة R لتظهر العلاقة الخطية',470,40,15,'#d62828')}
+ if(!pts.length)txt(h,'اضغط «أضف نقطة» بعد تغيير V',470,150,16,'#889');}
+
+/* ---------- Tab 4 ---------- */
+let pw=false;const c4=$('c4'),g4=c4.getContext('2d');
+$('sR4').oninput=()=>$('r4').textContent=$('sR4').value+' Ω';
+$('pw').onclick=()=>{pw=!pw;$('pw').textContent='🔋 وصل المقاومة ببطارية: '+(pw?'نعم':'لا');$('m4').innerHTML=pw?'<span class="bad">خطأ:</span> المقاومة موصولة بدائرة يمر فيها تيار، فقراءة الأوميتر غير صحيحة. افصلها عن الدائرة أولاً.':'الدائرة مفتوحة (I = 0 A): يمكن للأوميتر قياس المقاومة بشكل صحيح.'};
+function draw4(){const g=g4,R=+$('sR4').value;g.clearRect(0,0,900,360);
+ // ohmmeter
+ g.fillStyle='#1d2430';g.fillRect(40,40,280,240);g.fillStyle='#b8d8b0';g.fillRect(60,60,240,90);
+ const shown=pw?'Err':R.toFixed(1);g.fillStyle='#14301a';g.font='bold 44px monospace';g.textAlign='center';g.fillText(shown,180,120);g.font='bold 18px sans-serif';g.fillText(pw?'':'Ω',270,140);
+ txt(g,'جهاز الأوميتر Ohmmeter',180,310,15);g.fillStyle='#d62828';g.beginPath();g.arc(100,230,14,0,7);g.fill();g.fillStyle='#8b929c';g.beginPath();g.arc(260,230,14,0,7);g.fill();
+ // leads to resistor
+ g.strokeStyle='#d62828';g.lineWidth=4;g.beginPath();g.moveTo(100,230);g.bezierCurveTo(100,330,400,330,470,200);g.stroke();
+ g.strokeStyle='#8b929c';g.beginPath();g.moveTo(260,230);g.bezierCurveTo(260,300,700,330,720,200);g.stroke();
+ g.strokeStyle='#d98b3a';g.lineWidth=5;g.beginPath();g.moveTo(470,200);g.lineTo(720,200);g.stroke();
+ g.fillStyle='#fff';g.fillStyle='#0b1a2c';g.fillRect(500,170,190,60);resistor(g,510,200,170,'R = '+R+' Ω');
+ if(pw){g.fillStyle='#fff';g.fillStyle='#0b1a2c';g.fillRect(480,40,230,90);battery(g,500,60,50,50,6);g.strokeStyle='#d62828';g.lineWidth=3;g.setLineDash([6,5]);g.beginPath();g.moveTo(550,85);g.lineTo(620,85);g.lineTo(620,170);g.moveTo(500,85);g.lineTo(470,85);g.lineTo(470,200);g.stroke();g.setLineDash([]);txt(g,'تيار مار: I ≠ 0',610,150,13,'#d62828')}
+ else txt(g,'I = 0 A',590,110,16,'#1fa463');}
+
+/* ---------- Quiz ---------- */
+const Q=[
+['عند استعمال الأميتر لقياس التيار يُربط:',['على التوالي (متسلسل) مع الحمل','على التوازي مع الحمل','مباشرة بين قطبي البطارية'],0],
+['الفولطميتر يُربط:',['على التوالي','على التوازي بين طرفي الجزء المراد قياس فرق الجهد بين طرفيه','في الدائرة المفتوحة فقط'],1],
+['وحدة قياس المقاومة الكهربائية هي:',['الفولت','الأمبير','الأوم Ω'],2],
+['مقاومة موصل فرق الجهد بين طرفيه 12 V والتيار المار فيه 3 A تساوي:',['4 Ω','36 Ω','0.25 Ω'],0],
+['عند قياس المقاومة بالأوميتر يجب أن تكون المقاومة:',['موصولة بدائرة فيها بطارية','غير موصولة بدائرة كهربائية','موصولة على التوازي مع فولطميتر'],1],
+['في الدائرة المفتوحة (المفتاح مفتوح) يكون التيار:',['أكبر ما يمكن','يساوي صفراً','ثابتاً'],1]];
+let sc=0,ans=0;
+$('quiz').innerHTML=Q.map((q,i)=>`<div class="q"><b>${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<button data-q="${i}" data-j="${j}">${o}</button>`).join('')}</div>`).join('');
+$('quiz').onclick=e=>{const b=e.target.closest('button');if(!b||b.parentNode.dataset.done)return;const i=+b.dataset.q,j=+b.dataset.j;b.parentNode.dataset.done=1;
+ b.classList.add(j===Q[i][2]?'right':'wrong');if(j===Q[i][2])sc++;else b.parentNode.querySelector(`[data-j="${Q[i][2]}"]`).classList.add('right');ans++;
+ if(ans===Q.length){const s=$('score');s.style.display='block';s.textContent=`نتيجتك: ${sc} من ${Q.length}`}};
+
+/* ---------- loop ---------- */
+upd3();
+function tick(){phase+=1.6;const a=document.querySelector('section.on').id;
+ if(a==='t1')draw1();else if(a==='t2')draw2();else if(a==='t3')draw3();else if(a==='t4')draw4();requestAnimationFrame(tick)}
+tick();
+</script>
+</body>
+</html>
